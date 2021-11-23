@@ -6,6 +6,7 @@ __license__ = "MIT"
 
 from keypad.keymaps.matrix4x4 import Keymap4x4
 
+
 class Keypad():
     def __init__(self, keymap = None):
         self._keymap = keymap if keymap is not None else Keymap4x4()
