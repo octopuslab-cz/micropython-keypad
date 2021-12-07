@@ -1,7 +1,7 @@
 # OctopusLAB (c) 2021
 # by Petr Kracik
 
-__version__ = "0.4.1"
+__version__ = "0.5.0"
 __license__ = "MIT"
 
 from keypad.keymaps.matrix4x4 import Keymap4x4
