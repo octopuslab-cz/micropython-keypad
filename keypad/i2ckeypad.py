@@ -42,9 +42,9 @@ class I2CKeypad(Keypad):
 
 
     def getKey(self):
-        port_value = self._read_port()
         tmp = bytearray(self._bussize // 8)
 
+        port_value = self._read_port()
         port_value |= self._ROW_BITS
         port_value &= ~self._COLUMN_BITS
 
@@ -75,7 +75,7 @@ class I2CKeypad(Keypad):
 
         colVal = -1
         for j in range(len(self._keymap.COLUMN)):
-            if self._pin_value(self._keymap.COLUMN[j], c) == 0:
+            if self._pin_value(self._keymap.COLUMN[j], port_value) == 0:
                 colVal=j
                 break
         else:
