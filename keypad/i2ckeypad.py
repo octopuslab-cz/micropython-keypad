@@ -35,10 +35,10 @@ class I2CKeypad(Keypad):
         return value
 
 
-    def _pin_read(self, pinNum, port_value):
-        mask = 0x1 << pinNum
-        pinVal = port_value & mask
-        return 1 if pinVal == mask else 0
+    def _pin_value(self, pin_num, port_value):
+        mask = 0x1 << pin_num
+        pin_val = port_value & mask
+        return 1 if pin_val == mask else 0
 
 
     def getKey(self):
@@ -57,9 +57,9 @@ class I2CKeypad(Keypad):
 
         rowVal = -1
         for i in range(len(self._keymap.ROW)):
-            tmpRead = self._pin_read(self._keymap.ROW[i], port_value)
-            if tmpRead == 0:
+            if self._pin_value(self._keymap.ROW[i], port_value) == 0:
                 rowVal = i
+                break
 
         if rowVal < 0 or rowVal > len(self._keymap.ROW) - 1:
             return None
@@ -76,9 +76,9 @@ class I2CKeypad(Keypad):
 
         colVal = -1
         for j in range(len(self._keymap.COLUMN)):
-            tmpRead = self._pin_read(self._keymap.COLUMN[j], c)
-            if tmpRead == 0:
+            if self._pin_value(self._keymap.COLUMN[j], c) == 0:
                 colVal=j
+                break
 
         if colVal < 0 or colVal > len(self._keymap.COLUMN) - 1:
             return None
