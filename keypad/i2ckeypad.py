@@ -35,46 +35,48 @@ class I2CKeypad(Keypad):
         return value
 
 
-    def _pin_read(self, pinNum):
+    def _pin_read(self, pinNum, port_value):
         mask = 0x1 << pinNum
-        pinVal = self._read_port() & mask
+        pinVal = port_value & mask
         return 1 if pinVal == mask else 0
 
 
     def getKey(self):
-        c = self._read_port()
+        port_value = self._read_port()
         tmp = bytearray(self._bussize // 8)
 
-        c |= self._ROW_BITS
-        c &= ~self._COLUMN_BITS
+        port_value |= self._ROW_BITS
+        port_value &= ~self._COLUMN_BITS
 
-        tmp[0] = c
+        tmp[0] = port_value
         if self._bussize > 8:
-            tmp[1] = c >> 8
+            tmp[1] = port_value >> 8
 
         self._i2c.writeto(self._address, tmp)
+        port_value = self._read_port()
 
         rowVal = -1
         for i in range(len(self._keymap.ROW)):
-            tmpRead = self._pin_read(self._keymap.ROW[i])
+            tmpRead = self._pin_read(self._keymap.ROW[i], port_value)
             if tmpRead == 0:
                 rowVal = i
 
         if rowVal < 0 or rowVal > len(self._keymap.ROW) - 1:
             return None
 
-        c |= self._COLUMN_BITS
-        c &= ~self._ROW_BITS
+        port_value |= self._COLUMN_BITS
+        port_value &= ~self._ROW_BITS
 
-        tmp[0] = c
+        tmp[0] = port_value
         if self._bussize > 8:
-            tmp[1] = c >> 8
+            tmp[1] = port_value >> 8
 
         self._i2c.writeto(self._address, tmp)
+        port_value = self._read_port()
 
         colVal = -1
         for j in range(len(self._keymap.COLUMN)):
-            tmpRead = self._pin_read(self._keymap.COLUMN[j])
+            tmpRead = self._pin_read(self._keymap.COLUMN[j], c)
             if tmpRead == 0:
                 colVal=j
 
