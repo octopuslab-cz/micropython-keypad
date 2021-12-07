@@ -60,8 +60,7 @@ class I2CKeypad(Keypad):
             if self._pin_value(self._keymap.ROW[i], port_value) == 0:
                 rowVal = i
                 break
-
-        if rowVal < 0 or rowVal > len(self._keymap.ROW) - 1:
+        else:
             return None
 
         port_value |= self._COLUMN_BITS
@@ -79,8 +78,7 @@ class I2CKeypad(Keypad):
             if self._pin_value(self._keymap.COLUMN[j], c) == 0:
                 colVal=j
                 break
-
-        if colVal < 0 or colVal > len(self._keymap.COLUMN) - 1:
+        else:
             return None
 
         # Return the value of the key pressed
