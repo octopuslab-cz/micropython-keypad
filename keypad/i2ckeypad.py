@@ -41,7 +41,7 @@ class I2CKeypad(Keypad):
         return 1 if pin_val == mask else 0
 
 
-    def getKey(self):
+    def get_key(self):
         tmp = bytearray(self._bussize // 8)
 
         port_value = self._read_port()

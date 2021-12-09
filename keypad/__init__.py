@@ -13,4 +13,12 @@ class Keypad():
 
 
     def getKey(self):
+        key = self.get_key()
+        if key:
+            print("DEPRECATED: Use get_key instead")
+
+        return key
+
+
+    def get_key(self):
         raise NotImplementedError()
