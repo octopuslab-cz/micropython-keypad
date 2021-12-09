@@ -29,9 +29,16 @@ class Keypad():
 
     def read(self):
         while True:
+            if ticks_ms() < self._last_key_press+self._repeat_speed:
+                continue
+
             char = self.get_key()
-            if (char):
-                return char
+            if not char:
+                continue
+
+            self._last_key_press = ticks_ms()
+            self._on_keypress(char)
+            return char
 
 
     def input(self, text=None):
@@ -43,11 +50,7 @@ class Keypad():
 
         value = ""
         while True:
-            if ticks_ms() < self._last_key_press+self._repeat_speed:
-                continue
-
             char = self.read()
-            self._last_key_press = ticks_ms()
 
             if char == self._keymap.BACKSPACE:
                 if len(value) > 0:
