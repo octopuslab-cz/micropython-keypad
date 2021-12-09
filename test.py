@@ -12,10 +12,27 @@ KP_INTERRUPT = 39
 i2c = I2C(0, scl=Pin(I2C_SDA), sda=Pin(I2C_SCL), freq=400000)
 kp = I2CKeypad(i2c, KP_ADDRESS, 16)
 
+def on_keypress(key):
+    print("Pressed {}".format(key))
+
+kp.event_keypress_add(on_keypress)
+
 displayNum = ""
+char = None
+print("Test read method with callback")
+while char != "D":
+    try:
+        char = kp.read()
+    except OSError as e:
+        print("Error while get key")
+        print(e)
+
+kp.event_keypress_remove(on_keypress)
+
+print("Test input method")
 while True:
     try:
-        value = kp.input("Enter value: ")
+        value = kp.input()
     except OSError as e:
         print("Error while get key")
         print(e)
