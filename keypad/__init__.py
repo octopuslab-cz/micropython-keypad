@@ -13,6 +13,21 @@ class Keypad():
         self._keymap = keymap if keymap is not None else Keymap4x4()
         self._repeat_speed = 250
         self._last_key_press = 0
+        self._on_keypress_events = []
+
+
+    def _on_keypress(self, key):
+        for f in self._on_keypress_events:
+            f(key)
+
+
+    def event_keypress_add(self, function):
+        self._on_keypress_events.append(function)
+
+
+    def event_keypress_remove(self, function):
+        if function in self._on_keypress_events:
+            self._on_keypress_events.remove(function)
 
 
     def getKey(self):
