@@ -15,7 +15,7 @@ kp = I2CKeypad(i2c, KP_ADDRESS, 16)
 displayNum = ""
 while True:
     try:
-        value = kp.input()
+        value = kp.input("Enter value: ")
     except OSError as e:
         print("Error while get key")
         print(e)

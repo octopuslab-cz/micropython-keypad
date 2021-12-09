@@ -39,7 +39,7 @@ class Keypad():
             raise Exception("This keyboard does not have ENTER key, can not use input")
 
         if text:
-            print(text)
+            print(text, end='')
 
         value = ""
         while True:
